@@ -1,0 +1,1 @@
+[["1", "WRITE", "write"], ["1", "STRTOKEN", "Hallo Welt"], ["1", "SEMICOLON", ";"]]

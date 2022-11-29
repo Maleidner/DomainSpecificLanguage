@@ -1,0 +1,760 @@
+State 0:
+          code ::= * statementblock
+      (1) statementblock ::= *
+          statementblock ::= * statementblock statement
+
+                          code accept
+                statementblock shift        14     
+                     {default} reduce       1      statementblock ::=
+
+State 1:
+          ex ::= * LPAR ex RPAR
+          ex ::= * NUMTOKEN
+          ex ::= * STRTOKEN
+          ex ::= * IDENTIFIER
+          ex ::= * NOT ex
+          ex ::= * ex PLUS ex
+          ex ::= * ex MINUS ex
+          ex ::= * ex TIMES ex
+          ex ::= * ex DIVIDE ex
+          ex ::= * ex POWER ex
+          ex ::= * ex AND ex
+          ex ::= * ex OR ex
+          ex ::= * TRUE
+          ex ::= * FALSE
+          ex ::= * NUL_
+          ex ::= * jsonarray
+          jsonarray ::= * LSPAR RSPAR
+          jsonarray ::= LSPAR * RSPAR
+          jsonarray ::= * LSPAR exlist RSPAR
+          jsonarray ::= LSPAR * exlist RSPAR
+          exlist ::= * ex
+          exlist ::= * exlist COMMA ex
+
+                    IDENTIFIER shift-reduce 8      ex ::= IDENTIFIER
+                          LPAR shift        11     
+                      NUMTOKEN shift-reduce 6      ex ::= NUMTOKEN
+                      STRTOKEN shift-reduce 7      ex ::= STRTOKEN
+                           NOT shift        9      
+                          TRUE shift-reduce 17     ex ::= TRUE
+                         FALSE shift-reduce 18     ex ::= FALSE
+                          NUL_ shift-reduce 19     ex ::= NUL_
+                         LSPAR shift        1      
+                         RSPAR shift-reduce 21     jsonarray ::= LSPAR RSPAR
+                            ex shift        19     
+                     jsonarray shift-reduce 20     ex ::= jsonarray
+                        exlist shift        28     
+
+State 2:
+          statement ::= IDENTIFIER ASSIGN * ex SEMICOLON
+          ex ::= * LPAR ex RPAR
+          ex ::= * NUMTOKEN
+          ex ::= * STRTOKEN
+          ex ::= * IDENTIFIER
+          ex ::= * NOT ex
+          ex ::= * ex PLUS ex
+          ex ::= * ex MINUS ex
+          ex ::= * ex TIMES ex
+          ex ::= * ex DIVIDE ex
+          ex ::= * ex POWER ex
+          ex ::= * ex AND ex
+          ex ::= * ex OR ex
+          ex ::= * TRUE
+          ex ::= * FALSE
+          ex ::= * NUL_
+          ex ::= * jsonarray
+          jsonarray ::= * LSPAR RSPAR
+          jsonarray ::= * LSPAR exlist RSPAR
+
+                    IDENTIFIER shift-reduce 8      ex ::= IDENTIFIER
+                          LPAR shift        11     
+                      NUMTOKEN shift-reduce 6      ex ::= NUMTOKEN
+                      STRTOKEN shift-reduce 7      ex ::= STRTOKEN
+                           NOT shift        9      
+                          TRUE shift-reduce 17     ex ::= TRUE
+                         FALSE shift-reduce 18     ex ::= FALSE
+                          NUL_ shift-reduce 19     ex ::= NUL_
+                         LSPAR shift        1      
+                            ex shift        15     
+                     jsonarray shift-reduce 20     ex ::= jsonarray
+
+State 3:
+          ex ::= * LPAR ex RPAR
+          ex ::= * NUMTOKEN
+          ex ::= * STRTOKEN
+          ex ::= * IDENTIFIER
+          ex ::= * NOT ex
+          ex ::= * ex PLUS ex
+          ex ::= * ex MINUS ex
+          ex ::= * ex TIMES ex
+          ex ::= * ex DIVIDE ex
+          ex ::= * ex POWER ex
+          ex ::= * ex AND ex
+          ex ::= * ex OR ex
+          ex ::= * TRUE
+          ex ::= * FALSE
+          ex ::= * NUL_
+          ex ::= * jsonarray
+          jsonarray ::= * LSPAR RSPAR
+          jsonarray ::= * LSPAR exlist RSPAR
+          exlist ::= exlist COMMA * ex
+
+                    IDENTIFIER shift-reduce 8      ex ::= IDENTIFIER
+                          LPAR shift        11     
+                      NUMTOKEN shift-reduce 6      ex ::= NUMTOKEN
+                      STRTOKEN shift-reduce 7      ex ::= STRTOKEN
+                           NOT shift        9      
+                          TRUE shift-reduce 17     ex ::= TRUE
+                         FALSE shift-reduce 18     ex ::= FALSE
+                          NUL_ shift-reduce 19     ex ::= NUL_
+                         LSPAR shift        1      
+                            ex shift        18     
+                     jsonarray shift-reduce 20     ex ::= jsonarray
+
+State 4:
+          ex ::= * LPAR ex RPAR
+          ex ::= * NUMTOKEN
+          ex ::= * STRTOKEN
+          ex ::= * IDENTIFIER
+          ex ::= * NOT ex
+          ex ::= * ex PLUS ex
+          ex ::= * ex MINUS ex
+          ex ::= * ex TIMES ex
+          ex ::= * ex DIVIDE ex
+          ex ::= * ex POWER ex
+          ex ::= * ex AND ex
+          ex ::= * ex OR ex
+          ex ::= ex OR * ex
+          ex ::= * TRUE
+          ex ::= * FALSE
+          ex ::= * NUL_
+          ex ::= * jsonarray
+          jsonarray ::= * LSPAR RSPAR
+          jsonarray ::= * LSPAR exlist RSPAR
+
+                    IDENTIFIER shift-reduce 8      ex ::= IDENTIFIER
+                          LPAR shift        11     
+                      NUMTOKEN shift-reduce 6      ex ::= NUMTOKEN
+                      STRTOKEN shift-reduce 7      ex ::= STRTOKEN
+                           NOT shift        9      
+                          TRUE shift-reduce 17     ex ::= TRUE
+                         FALSE shift-reduce 18     ex ::= FALSE
+                          NUL_ shift-reduce 19     ex ::= NUL_
+                         LSPAR shift        1      
+                            ex shift        20     
+                     jsonarray shift-reduce 20     ex ::= jsonarray
+
+State 5:
+          ex ::= * LPAR ex RPAR
+          ex ::= * NUMTOKEN
+          ex ::= * STRTOKEN
+          ex ::= * IDENTIFIER
+          ex ::= * NOT ex
+          ex ::= * ex PLUS ex
+          ex ::= * ex MINUS ex
+          ex ::= * ex TIMES ex
+          ex ::= * ex DIVIDE ex
+          ex ::= * ex POWER ex
+          ex ::= * ex AND ex
+          ex ::= ex AND * ex
+          ex ::= * ex OR ex
+          ex ::= * TRUE
+          ex ::= * FALSE
+          ex ::= * NUL_
+          ex ::= * jsonarray
+          jsonarray ::= * LSPAR RSPAR
+          jsonarray ::= * LSPAR exlist RSPAR
+
+                    IDENTIFIER shift-reduce 8      ex ::= IDENTIFIER
+                          LPAR shift        11     
+                      NUMTOKEN shift-reduce 6      ex ::= NUMTOKEN
+                      STRTOKEN shift-reduce 7      ex ::= STRTOKEN
+                           NOT shift        9      
+                          TRUE shift-reduce 17     ex ::= TRUE
+                         FALSE shift-reduce 18     ex ::= FALSE
+                          NUL_ shift-reduce 19     ex ::= NUL_
+                         LSPAR shift        1      
+                            ex shift        21     
+                     jsonarray shift-reduce 20     ex ::= jsonarray
+
+State 6:
+          ex ::= * LPAR ex RPAR
+          ex ::= * NUMTOKEN
+          ex ::= * STRTOKEN
+          ex ::= * IDENTIFIER
+          ex ::= * NOT ex
+          ex ::= * ex PLUS ex
+          ex ::= * ex MINUS ex
+          ex ::= * ex TIMES ex
+          ex ::= * ex DIVIDE ex
+          ex ::= * ex POWER ex
+          ex ::= ex POWER * ex
+          ex ::= * ex AND ex
+          ex ::= * ex OR ex
+          ex ::= * TRUE
+          ex ::= * FALSE
+          ex ::= * NUL_
+          ex ::= * jsonarray
+          jsonarray ::= * LSPAR RSPAR
+          jsonarray ::= * LSPAR exlist RSPAR
+
+                    IDENTIFIER shift-reduce 8      ex ::= IDENTIFIER
+                          LPAR shift        11     
+                      NUMTOKEN shift-reduce 6      ex ::= NUMTOKEN
+                      STRTOKEN shift-reduce 7      ex ::= STRTOKEN
+                           NOT shift        9      
+                          TRUE shift-reduce 17     ex ::= TRUE
+                         FALSE shift-reduce 18     ex ::= FALSE
+                          NUL_ shift-reduce 19     ex ::= NUL_
+                         LSPAR shift        1      
+                            ex shift        25     
+                     jsonarray shift-reduce 20     ex ::= jsonarray
+
+State 7:
+          ex ::= * LPAR ex RPAR
+          ex ::= * NUMTOKEN
+          ex ::= * STRTOKEN
+          ex ::= * IDENTIFIER
+          ex ::= * NOT ex
+          ex ::= * ex PLUS ex
+          ex ::= * ex MINUS ex
+          ex ::= * ex TIMES ex
+          ex ::= * ex DIVIDE ex
+          ex ::= ex DIVIDE * ex
+          ex ::= * ex POWER ex
+          ex ::= * ex AND ex
+          ex ::= * ex OR ex
+          ex ::= * TRUE
+          ex ::= * FALSE
+          ex ::= * NUL_
+          ex ::= * jsonarray
+          jsonarray ::= * LSPAR RSPAR
+          jsonarray ::= * LSPAR exlist RSPAR
+
+                    IDENTIFIER shift-reduce 8      ex ::= IDENTIFIER
+                          LPAR shift        11     
+                      NUMTOKEN shift-reduce 6      ex ::= NUMTOKEN
+                      STRTOKEN shift-reduce 7      ex ::= STRTOKEN
+                           NOT shift        9      
+                          TRUE shift-reduce 17     ex ::= TRUE
+                         FALSE shift-reduce 18     ex ::= FALSE
+                          NUL_ shift-reduce 19     ex ::= NUL_
+                         LSPAR shift        1      
+                            ex shift        26     
+                     jsonarray shift-reduce 20     ex ::= jsonarray
+
+State 8:
+          ex ::= * LPAR ex RPAR
+          ex ::= * NUMTOKEN
+          ex ::= * STRTOKEN
+          ex ::= * IDENTIFIER
+          ex ::= * NOT ex
+          ex ::= * ex PLUS ex
+          ex ::= * ex MINUS ex
+          ex ::= * ex TIMES ex
+          ex ::= ex TIMES * ex
+          ex ::= * ex DIVIDE ex
+          ex ::= * ex POWER ex
+          ex ::= * ex AND ex
+          ex ::= * ex OR ex
+          ex ::= * TRUE
+          ex ::= * FALSE
+          ex ::= * NUL_
+          ex ::= * jsonarray
+          jsonarray ::= * LSPAR RSPAR
+          jsonarray ::= * LSPAR exlist RSPAR
+
+                    IDENTIFIER shift-reduce 8      ex ::= IDENTIFIER
+                          LPAR shift        11     
+                      NUMTOKEN shift-reduce 6      ex ::= NUMTOKEN
+                      STRTOKEN shift-reduce 7      ex ::= STRTOKEN
+                           NOT shift        9      
+                          TRUE shift-reduce 17     ex ::= TRUE
+                         FALSE shift-reduce 18     ex ::= FALSE
+                          NUL_ shift-reduce 19     ex ::= NUL_
+                         LSPAR shift        1      
+                            ex shift        27     
+                     jsonarray shift-reduce 20     ex ::= jsonarray
+
+State 9:
+          ex ::= * LPAR ex RPAR
+          ex ::= * NUMTOKEN
+          ex ::= * STRTOKEN
+          ex ::= * IDENTIFIER
+          ex ::= * NOT ex
+          ex ::= NOT * ex
+          ex ::= * ex PLUS ex
+          ex ::= * ex MINUS ex
+          ex ::= * ex TIMES ex
+          ex ::= * ex DIVIDE ex
+          ex ::= * ex POWER ex
+          ex ::= * ex AND ex
+          ex ::= * ex OR ex
+          ex ::= * TRUE
+          ex ::= * FALSE
+          ex ::= * NUL_
+          ex ::= * jsonarray
+          jsonarray ::= * LSPAR RSPAR
+          jsonarray ::= * LSPAR exlist RSPAR
+
+                    IDENTIFIER shift-reduce 8      ex ::= IDENTIFIER
+                          LPAR shift        11     
+                      NUMTOKEN shift-reduce 6      ex ::= NUMTOKEN
+                      STRTOKEN shift-reduce 7      ex ::= STRTOKEN
+                           NOT shift        9      
+                          TRUE shift-reduce 17     ex ::= TRUE
+                         FALSE shift-reduce 18     ex ::= FALSE
+                          NUL_ shift-reduce 19     ex ::= NUL_
+                         LSPAR shift        1      
+                            ex shift        22     
+                     jsonarray shift-reduce 20     ex ::= jsonarray
+
+State 10:
+          ex ::= * LPAR ex RPAR
+          ex ::= * NUMTOKEN
+          ex ::= * STRTOKEN
+          ex ::= * IDENTIFIER
+          ex ::= * NOT ex
+          ex ::= * ex PLUS ex
+          ex ::= * ex MINUS ex
+          ex ::= ex MINUS * ex
+          ex ::= * ex TIMES ex
+          ex ::= * ex DIVIDE ex
+          ex ::= * ex POWER ex
+          ex ::= * ex AND ex
+          ex ::= * ex OR ex
+          ex ::= * TRUE
+          ex ::= * FALSE
+          ex ::= * NUL_
+          ex ::= * jsonarray
+          jsonarray ::= * LSPAR RSPAR
+          jsonarray ::= * LSPAR exlist RSPAR
+
+                    IDENTIFIER shift-reduce 8      ex ::= IDENTIFIER
+                          LPAR shift        11     
+                      NUMTOKEN shift-reduce 6      ex ::= NUMTOKEN
+                      STRTOKEN shift-reduce 7      ex ::= STRTOKEN
+                           NOT shift        9      
+                          TRUE shift-reduce 17     ex ::= TRUE
+                         FALSE shift-reduce 18     ex ::= FALSE
+                          NUL_ shift-reduce 19     ex ::= NUL_
+                         LSPAR shift        1      
+                            ex shift        24     
+                     jsonarray shift-reduce 20     ex ::= jsonarray
+
+State 11:
+          ex ::= * LPAR ex RPAR
+          ex ::= LPAR * ex RPAR
+          ex ::= * NUMTOKEN
+          ex ::= * STRTOKEN
+          ex ::= * IDENTIFIER
+          ex ::= * NOT ex
+          ex ::= * ex PLUS ex
+          ex ::= * ex MINUS ex
+          ex ::= * ex TIMES ex
+          ex ::= * ex DIVIDE ex
+          ex ::= * ex POWER ex
+          ex ::= * ex AND ex
+          ex ::= * ex OR ex
+          ex ::= * TRUE
+          ex ::= * FALSE
+          ex ::= * NUL_
+          ex ::= * jsonarray
+          jsonarray ::= * LSPAR RSPAR
+          jsonarray ::= * LSPAR exlist RSPAR
+
+                    IDENTIFIER shift-reduce 8      ex ::= IDENTIFIER
+                          LPAR shift        11     
+                      NUMTOKEN shift-reduce 6      ex ::= NUMTOKEN
+                      STRTOKEN shift-reduce 7      ex ::= STRTOKEN
+                           NOT shift        9      
+                          TRUE shift-reduce 17     ex ::= TRUE
+                         FALSE shift-reduce 18     ex ::= FALSE
+                          NUL_ shift-reduce 19     ex ::= NUL_
+                         LSPAR shift        1      
+                            ex shift        16     
+                     jsonarray shift-reduce 20     ex ::= jsonarray
+
+State 12:
+          ex ::= * LPAR ex RPAR
+          ex ::= * NUMTOKEN
+          ex ::= * STRTOKEN
+          ex ::= * IDENTIFIER
+          ex ::= * NOT ex
+          ex ::= * ex PLUS ex
+          ex ::= ex PLUS * ex
+          ex ::= * ex MINUS ex
+          ex ::= * ex TIMES ex
+          ex ::= * ex DIVIDE ex
+          ex ::= * ex POWER ex
+          ex ::= * ex AND ex
+          ex ::= * ex OR ex
+          ex ::= * TRUE
+          ex ::= * FALSE
+          ex ::= * NUL_
+          ex ::= * jsonarray
+          jsonarray ::= * LSPAR RSPAR
+          jsonarray ::= * LSPAR exlist RSPAR
+
+                    IDENTIFIER shift-reduce 8      ex ::= IDENTIFIER
+                          LPAR shift        11     
+                      NUMTOKEN shift-reduce 6      ex ::= NUMTOKEN
+                      STRTOKEN shift-reduce 7      ex ::= STRTOKEN
+                           NOT shift        9      
+                          TRUE shift-reduce 17     ex ::= TRUE
+                         FALSE shift-reduce 18     ex ::= FALSE
+                          NUL_ shift-reduce 19     ex ::= NUL_
+                         LSPAR shift        1      
+                            ex shift        23     
+                     jsonarray shift-reduce 20     ex ::= jsonarray
+
+State 13:
+          statement ::= WRITE * ex SEMICOLON
+          ex ::= * LPAR ex RPAR
+          ex ::= * NUMTOKEN
+          ex ::= * STRTOKEN
+          ex ::= * IDENTIFIER
+          ex ::= * NOT ex
+          ex ::= * ex PLUS ex
+          ex ::= * ex MINUS ex
+          ex ::= * ex TIMES ex
+          ex ::= * ex DIVIDE ex
+          ex ::= * ex POWER ex
+          ex ::= * ex AND ex
+          ex ::= * ex OR ex
+          ex ::= * TRUE
+          ex ::= * FALSE
+          ex ::= * NUL_
+          ex ::= * jsonarray
+          jsonarray ::= * LSPAR RSPAR
+          jsonarray ::= * LSPAR exlist RSPAR
+
+                    IDENTIFIER shift-reduce 8      ex ::= IDENTIFIER
+                          LPAR shift        11     
+                      NUMTOKEN shift-reduce 6      ex ::= NUMTOKEN
+                      STRTOKEN shift-reduce 7      ex ::= STRTOKEN
+                           NOT shift        9      
+                          TRUE shift-reduce 17     ex ::= TRUE
+                         FALSE shift-reduce 18     ex ::= FALSE
+                          NUL_ shift-reduce 19     ex ::= NUL_
+                         LSPAR shift        1      
+                            ex shift        17     
+                     jsonarray shift-reduce 20     ex ::= jsonarray
+
+State 14:
+      (0) code ::= statementblock *
+          statementblock ::= statementblock * statement
+          statement ::= * WRITE ex SEMICOLON
+          statement ::= * IDENTIFIER ASSIGN ex SEMICOLON
+
+                             $ reduce       0      code ::= statementblock
+                         WRITE shift        13     
+                    IDENTIFIER shift        29     
+                     statement shift-reduce 2      statementblock ::= statementblock statement
+
+State 15:
+          statement ::= IDENTIFIER ASSIGN ex * SEMICOLON
+          ex ::= ex * PLUS ex
+          ex ::= ex * MINUS ex
+          ex ::= ex * TIMES ex
+          ex ::= ex * DIVIDE ex
+          ex ::= ex * POWER ex
+          ex ::= ex * AND ex
+          ex ::= ex * OR ex
+
+                          PLUS shift        12     
+                         MINUS shift        10     
+                         TIMES shift        8      
+                        DIVIDE shift        7      
+                         POWER shift        6      
+                     SEMICOLON shift-reduce 4      statement ::= IDENTIFIER ASSIGN ex SEMICOLON
+                           AND shift        5      
+                            OR shift        4      
+
+State 16:
+          ex ::= LPAR ex * RPAR
+          ex ::= ex * PLUS ex
+          ex ::= ex * MINUS ex
+          ex ::= ex * TIMES ex
+          ex ::= ex * DIVIDE ex
+          ex ::= ex * POWER ex
+          ex ::= ex * AND ex
+          ex ::= ex * OR ex
+
+                          PLUS shift        12     
+                         MINUS shift        10     
+                         TIMES shift        8      
+                        DIVIDE shift        7      
+                         POWER shift        6      
+                          RPAR shift-reduce 5      ex ::= LPAR ex RPAR
+                           AND shift        5      
+                            OR shift        4      
+
+State 17:
+          statement ::= WRITE ex * SEMICOLON
+          ex ::= ex * PLUS ex
+          ex ::= ex * MINUS ex
+          ex ::= ex * TIMES ex
+          ex ::= ex * DIVIDE ex
+          ex ::= ex * POWER ex
+          ex ::= ex * AND ex
+          ex ::= ex * OR ex
+
+                          PLUS shift        12     
+                         MINUS shift        10     
+                         TIMES shift        8      
+                        DIVIDE shift        7      
+                         POWER shift        6      
+                     SEMICOLON shift-reduce 3      statement ::= WRITE ex SEMICOLON
+                           AND shift        5      
+                            OR shift        4      
+
+State 18:
+          ex ::= ex * PLUS ex
+          ex ::= ex * MINUS ex
+          ex ::= ex * TIMES ex
+          ex ::= ex * DIVIDE ex
+          ex ::= ex * POWER ex
+          ex ::= ex * AND ex
+          ex ::= ex * OR ex
+     (24) exlist ::= exlist COMMA ex *
+
+                          PLUS shift        12     
+                         MINUS shift        10     
+                         TIMES shift        8      
+                        DIVIDE shift        7      
+                         POWER shift        6      
+                           AND shift        5      
+                            OR shift        4      
+                     {default} reduce       24     exlist ::= exlist COMMA ex
+
+State 19:
+          ex ::= ex * PLUS ex
+          ex ::= ex * MINUS ex
+          ex ::= ex * TIMES ex
+          ex ::= ex * DIVIDE ex
+          ex ::= ex * POWER ex
+          ex ::= ex * AND ex
+          ex ::= ex * OR ex
+     (23) exlist ::= ex *
+
+                          PLUS shift        12     
+                         MINUS shift        10     
+                         TIMES shift        8      
+                        DIVIDE shift        7      
+                         POWER shift        6      
+                           AND shift        5      
+                            OR shift        4      
+                     {default} reduce       23     exlist ::= ex
+
+State 20:
+          ex ::= ex * PLUS ex
+          ex ::= ex * MINUS ex
+          ex ::= ex * TIMES ex
+          ex ::= ex * DIVIDE ex
+          ex ::= ex * POWER ex
+          ex ::= ex * AND ex
+          ex ::= ex * OR ex
+     (16) ex ::= ex OR ex *
+
+                          PLUS shift        12     
+                          PLUS reduce       16      ** Parsing conflict **
+                         MINUS shift        10     
+                         MINUS reduce       16      ** Parsing conflict **
+                         TIMES shift        8      
+                         TIMES reduce       16      ** Parsing conflict **
+                        DIVIDE shift        7      
+                        DIVIDE reduce       16      ** Parsing conflict **
+                         POWER shift        6      
+                         POWER reduce       16      ** Parsing conflict **
+                           AND shift        5      
+                           AND reduce       16      ** Parsing conflict **
+                            OR shift        4      
+                            OR reduce       16      ** Parsing conflict **
+                     {default} reduce       16     ex ::= ex OR ex
+
+State 21:
+          ex ::= ex * PLUS ex
+          ex ::= ex * MINUS ex
+          ex ::= ex * TIMES ex
+          ex ::= ex * DIVIDE ex
+          ex ::= ex * POWER ex
+          ex ::= ex * AND ex
+     (15) ex ::= ex AND ex *
+          ex ::= ex * OR ex
+
+                          PLUS shift        12     
+                          PLUS reduce       15      ** Parsing conflict **
+                         MINUS shift        10     
+                         MINUS reduce       15      ** Parsing conflict **
+                         TIMES shift        8      
+                         TIMES reduce       15      ** Parsing conflict **
+                        DIVIDE shift        7      
+                        DIVIDE reduce       15      ** Parsing conflict **
+                         POWER shift        6      
+                         POWER reduce       15      ** Parsing conflict **
+                           AND shift        5      
+                           AND reduce       15      ** Parsing conflict **
+                            OR shift        4      
+                            OR reduce       15      ** Parsing conflict **
+                     {default} reduce       15     ex ::= ex AND ex
+
+State 22:
+      (9) ex ::= NOT ex *
+          ex ::= ex * PLUS ex
+          ex ::= ex * MINUS ex
+          ex ::= ex * TIMES ex
+          ex ::= ex * DIVIDE ex
+          ex ::= ex * POWER ex
+          ex ::= ex * AND ex
+          ex ::= ex * OR ex
+
+                          PLUS shift        12     
+                          PLUS reduce       9       ** Parsing conflict **
+                         MINUS shift        10     
+                         MINUS reduce       9       ** Parsing conflict **
+                         TIMES shift        8      
+                         TIMES reduce       9       ** Parsing conflict **
+                        DIVIDE shift        7      
+                        DIVIDE reduce       9       ** Parsing conflict **
+                         POWER shift        6      
+                         POWER reduce       9       ** Parsing conflict **
+                           AND shift        5      
+                           AND reduce       9       ** Parsing conflict **
+                            OR shift        4      
+                            OR reduce       9       ** Parsing conflict **
+                     {default} reduce       9      ex ::= NOT ex
+
+State 23:
+          ex ::= ex * PLUS ex
+     (10) ex ::= ex PLUS ex *
+          ex ::= ex * MINUS ex
+          ex ::= ex * TIMES ex
+          ex ::= ex * DIVIDE ex
+          ex ::= ex * POWER ex
+          ex ::= ex * AND ex
+          ex ::= ex * OR ex
+
+                         TIMES shift        8      
+                        DIVIDE shift        7      
+                         POWER shift        6      
+                           AND shift        5      
+                           AND reduce       10      ** Parsing conflict **
+                            OR shift        4      
+                            OR reduce       10      ** Parsing conflict **
+                     {default} reduce       10     ex ::= ex PLUS ex
+
+State 24:
+          ex ::= ex * PLUS ex
+          ex ::= ex * MINUS ex
+     (11) ex ::= ex MINUS ex *
+          ex ::= ex * TIMES ex
+          ex ::= ex * DIVIDE ex
+          ex ::= ex * POWER ex
+          ex ::= ex * AND ex
+          ex ::= ex * OR ex
+
+                         TIMES shift        8      
+                        DIVIDE shift        7      
+                         POWER shift        6      
+                           AND shift        5      
+                           AND reduce       11      ** Parsing conflict **
+                            OR shift        4      
+                            OR reduce       11      ** Parsing conflict **
+                     {default} reduce       11     ex ::= ex MINUS ex
+
+State 25:
+          ex ::= ex * PLUS ex
+          ex ::= ex * MINUS ex
+          ex ::= ex * TIMES ex
+          ex ::= ex * DIVIDE ex
+          ex ::= ex * POWER ex
+     (14) ex ::= ex POWER ex *
+          ex ::= ex * AND ex
+          ex ::= ex * OR ex
+
+                         POWER shift        6      
+                           AND shift        5      
+                           AND reduce       14      ** Parsing conflict **
+                            OR shift        4      
+                            OR reduce       14      ** Parsing conflict **
+                     {default} reduce       14     ex ::= ex POWER ex
+
+State 26:
+          ex ::= ex * PLUS ex
+          ex ::= ex * MINUS ex
+          ex ::= ex * TIMES ex
+          ex ::= ex * DIVIDE ex
+     (13) ex ::= ex DIVIDE ex *
+          ex ::= ex * POWER ex
+          ex ::= ex * AND ex
+          ex ::= ex * OR ex
+
+                         POWER shift        6      
+                           AND shift        5      
+                           AND reduce       13      ** Parsing conflict **
+                            OR shift        4      
+                            OR reduce       13      ** Parsing conflict **
+                     {default} reduce       13     ex ::= ex DIVIDE ex
+
+State 27:
+          ex ::= ex * PLUS ex
+          ex ::= ex * MINUS ex
+          ex ::= ex * TIMES ex
+     (12) ex ::= ex TIMES ex *
+          ex ::= ex * DIVIDE ex
+          ex ::= ex * POWER ex
+          ex ::= ex * AND ex
+          ex ::= ex * OR ex
+
+                         POWER shift        6      
+                           AND shift        5      
+                           AND reduce       12      ** Parsing conflict **
+                            OR shift        4      
+                            OR reduce       12      ** Parsing conflict **
+                     {default} reduce       12     ex ::= ex TIMES ex
+
+State 28:
+          jsonarray ::= LSPAR exlist * RSPAR
+          exlist ::= exlist * COMMA ex
+
+                         RSPAR shift-reduce 22     jsonarray ::= LSPAR exlist RSPAR
+                         COMMA shift        3      
+
+State 29:
+          statement ::= IDENTIFIER * ASSIGN ex SEMICOLON
+
+                        ASSIGN shift        2      
+
+----------------------------------------------------
+Symbols:
+    0: $:
+    1: PLUS
+    2: MINUS
+    3: TIMES
+    4: DIVIDE
+    5: POWER
+    6: WRITE
+    7: SEMICOLON
+    8: IDENTIFIER
+    9: ASSIGN
+   10: LPAR
+   11: RPAR
+   12: NUMTOKEN
+   13: STRTOKEN
+   14: NOT
+   15: AND
+   16: OR
+   17: TRUE
+   18: FALSE
+   19: NUL_
+   20: LSPAR
+   21: RSPAR
+   22: COMMA
+   23: error:
+   24: code: <lambda> WRITE IDENTIFIER
+   25: statementblock: <lambda> WRITE IDENTIFIER
+   26: statement: WRITE IDENTIFIER
+   27: ex: IDENTIFIER LPAR NUMTOKEN STRTOKEN NOT TRUE FALSE NUL_ LSPAR
+   28: jsonarray: LSPAR
+   29: exlist: IDENTIFIER LPAR NUMTOKEN STRTOKEN NOT TRUE FALSE NUL_ LSPAR
