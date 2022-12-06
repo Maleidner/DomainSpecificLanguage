@@ -9,10 +9,10 @@ class StrType:
 
 class NumType:  
     def __init__(self, value, timestamp=None):
-        self.value = value
+        self.value = float(value)
         self.timestamp = timestamp
-    def __int__(self):
-        return int(self.value) 
+    def __str__(self):
+        return str(self.value)
 
 '''class ListType:  
     def __init__(self, value):
@@ -27,7 +27,7 @@ class NumType:
 '''
 
 class ListType:  
-    def __init__(self):
+    def __init__(self, timestamp = None):
         self.value = []
     def __str__(self):
         res = []
@@ -35,6 +35,11 @@ class ListType:
             res.append(element.value)
         return str(res)
 
+class NullType:
+    def __init__(self, timestamp = None):
+        self.timestamp = timestamp
+    def __str__(self):
+        return "Null"
 
 class BoolType:
     def __init__(self, value, timestamp=None):

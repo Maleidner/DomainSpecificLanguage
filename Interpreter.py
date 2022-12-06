@@ -1,7 +1,77 @@
 import sys
 from Datatypes import *
+import operators
+
 class Interpreter:
     
+
+    def runOperator(self, fct, arg, handling):
+        evalArgs = [];
+
+        if handling == "NO":
+            for a in arg:
+                evalArgs.append(self.ev(a))
+            return self.callOperator(fct, evalArgs)
+
+        elif handling == "DEF":
+            argsAreLists = False
+            listLengths = []
+            for a in arg:
+                ea = self.ev(a)
+                if isinstance(ea, ListType):
+                    argsAreLists = True
+                    listLengths.append(len(ea.value))
+                evalArgs.append(ea.value)
+
+            if not argsAreLists:
+                return self.callOperator(fct, evalArgs)
+
+            else:
+                sameLength = True
+                refLength = listLengths[0]
+                for l in listLengths:
+                    if l != refLength:
+                        sameLength = False
+
+                if not sameLength:
+                    return NullType()
+
+              #  modifiedArgs = [evalArgs[0]] * refLength
+                modifiedArgs = []
+                for e in evalArgs:
+                    #if type(e) == float or type(e) == int:
+                   #     modifiedArgs.append([e] * refLength)
+                    if type(e) == float or type(e) == int:
+                        modifiedArgs.append([e] * refLength)
+                    elif type(e) == list:
+                        e = list(e)
+                        tmp = []
+                        for i in range(len(e)): 
+                            tmp.append(e[i].value)
+
+                        modifiedArgs.append(tmp)
+
+                result = list()
+
+                for i in range(refLength):
+                    callArgs = []
+                    for m in modifiedArgs:
+                        callArgs.append(m)
+                    temp = [callArgs[0][i], callArgs[1][i]]
+                    result.append(self.callOperator(fct, temp))
+                result2 = []
+                for i in range(len(result)):
+                    result2.append(result[i].value)
+                return result2
+
+    def callOperator(self, fct, earg):
+        if len(earg) == 1:
+            return getattr(operators, fct)(earg[0])
+        elif len(earg) == 2:
+            return getattr(operators, fct)(earg[0], earg[1])
+        elif len(earg) == 3:
+             return getattr(operators, fct)(earg[0], earg[1], earg[2])
+
     # Evaluiert einen Knoten im AST
     def ev(self, node):
         if node["type"] == "STATEMENTBLOCK":
@@ -83,12 +153,8 @@ class Interpreter:
  
 
         elif node["type"] == "PLUS":
-            res = 0
-            for element in node['arg']:
-                val = self.ev(element)
-                res += int(val)
-            print(res)
-            return NumType(res) 
+            return self.runOperator("_plus", node["arg"], "DEF")
+          
 
 
         if node['type'] == 'TIMES':
@@ -109,7 +175,7 @@ class Interpreter:
                         res.value[i].value = int(res.value[i]) * int(val)
                 else:
                     res.value *= val.value
-                return res
+                return res 
 
 
         # elif node["type"] == "TIMES":
@@ -122,13 +188,7 @@ class Interpreter:
 
 
         elif node["type"] == "MINUS":
-            res = 0
-            for element in node['arg']:
-                val = self.ev(element)
-                res = int(val) -res
-                res2 = res - int(val)
-            print(res2)
-            return NumType(res2)
+            return self.runOperator("_minus", node["arg"], "DEF")
 
 
         elif node["type"] == "DIVIDE":
@@ -138,3 +198,6 @@ class Interpreter:
                 res = int(val) / res
             print(res)
             return NumType(res) 
+
+
+        

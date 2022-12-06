@@ -11,5 +11,3 @@ print(str(tokenstream))
 ast = Compiler().compile(json.dumps(tokenstream))
 print(json.dumps(ast, indent = 4))
 Interpreter().ev(ast)
-
-# primitive typ checken ob liste, wenn Liste elementweise mit for loop
