@@ -1,6 +1,7 @@
 import sys
 from Datatypes import *
 import operators
+symbol_table = {};
 
 class Interpreter:
     
@@ -48,7 +49,6 @@ class Interpreter:
                         tmp = []
                         for i in range(len(e)): 
                             tmp.append(e[i].value)
-
                         modifiedArgs.append(tmp)
 
                 result = list()
@@ -126,30 +126,7 @@ class Interpreter:
 
 
         elif node["type"] == "POWER":
-            res = self.ev(node['arg'][0])
-            for element in node['arg'][1:]:
-                val = self.ev(element)
-                if type(res) == ListType and type(val) == ListType:
-                    for i in range(len(val.value)):
-                        res.value[i].value = int(res.value[i]) ** int(val.value[i].value)
-                elif type(res) == ListType:
-                    for i in range(len(res.value)):
-                        res.value[i].value = int(res.value[i]) ** int(val)
-                elif type(val) == ListType:
-                    temp = res
-                    res = val
-                    val = temp
-                    for i in range(len(res.value)):
-                        res.value[i].value = int(res.value[i]) ** int(val)
-                else:
-                    res.value = int(res.value) ** int(val.value)
-                return res.value
-            #res = self.ev(node["arg"][0])
-            #for element in node['arg'][1:]:
-             #   val = self.ev(element)
-              #  res = int(res.value) ** int(val)
-            #print(res)
-            #return NumType(res)  
+            return self.runOperator("_power", node["arg"], "DEF")
  
 
         elif node["type"] == "PLUS":
@@ -158,33 +135,7 @@ class Interpreter:
 
 
         if node['type'] == 'TIMES':
-            res = self.ev(node['arg'][0])
-            for element in node['arg'][1:]:
-                val = self.ev(element)
-                if type(res) == ListType and type(val) == ListType:
-                    for i in range(len(val.value)):
-                        res.value[i].value = int(res.value[i]) * int(val.value[i].value)
-                elif type(res) == ListType:
-                    for i in range(len(res.value)):
-                        res.value[i].value = int(res.value[i]) * int(val)
-                elif type(val) == ListType:
-                    temp = res
-                    res = val
-                    val = temp
-                    for i in range(len(res.value)):
-                        res.value[i].value = int(res.value[i]) * int(val)
-                else:
-                    res.value *= val.value
-                return res 
-
-
-        # elif node["type"] == "TIMES":
-        #     res = 1
-        #     for element in node['arg']:
-        #         val = self.ev(element)
-        #         res *= int(val)
-        #     print(res)
-        #     return NumType(res) 
+            return self.runOperator("_times", node["arg"], "DEF")
 
 
         elif node["type"] == "MINUS":
@@ -192,12 +143,11 @@ class Interpreter:
 
 
         elif node["type"] == "DIVIDE":
-            res = 1
-            for element in node['arg']:
-                val = self.ev(element)
-                res = int(val) / res
-            print(res)
-            return NumType(res) 
+            return self.runOperator("_divide", node["arg"], "DEF")
 
 
-        
+        elif node["type"] == "ASSIGN":
+            symbol_table[node.get("varname")] = self.ev(node.get("arg"))
+
+        elif node["type"] == "VARIABLE":
+            return symbol_table.get(node.get("name"), NullType)

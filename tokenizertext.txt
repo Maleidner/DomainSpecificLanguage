@@ -1,9 +1,7 @@
-//write 5 * [1,2,3,4,5] * 2 * 4 * [1,2,3,4,5];
-//write 2**3;
-//write 2 ** [1,2,3,4,5];
-write 70 + 20;
-write 1 + [1,2,3];
-write [6,8,10] + 10;
-write [10, 20, 30] + [5,6,7];
-write 9-2;
-write 30 - [5,10,15];
+//write "Hello World";
+// Grundrechenarten
+//write 1 + 2 - 5 * 7 / 9;
+// Jetzt mit Listen
+write [1,1,1] + 2 - [5,5,5] * 7 / 9;
+x := 345;
+write x;
