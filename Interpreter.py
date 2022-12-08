@@ -22,7 +22,13 @@ class Interpreter:
                 if isinstance(ea, ListType):
                     argsAreLists = True
                     listLengths.append(len(ea.value))
-                evalArgs.append(ea.value)
+                    evalArgs.append(ea.value)
+                elif(type(ea) == list):
+                    argsAreLists = True
+                    listLengths.append(len(ea))
+                    evalArgs.append(ea)
+                else:
+                    evalArgs.append(ea.value)
 
             if not argsAreLists:
                 return self.callOperator(fct, evalArgs)
@@ -48,7 +54,7 @@ class Interpreter:
                         e = list(e)
                         tmp = []
                         for i in range(len(e)): 
-                            tmp.append(e[i].value)
+                            tmp.append(e[i])
                         modifiedArgs.append(tmp)
 
                 result = list()
@@ -58,10 +64,16 @@ class Interpreter:
                     for m in modifiedArgs:
                         callArgs.append(m)
                     temp = [callArgs[0][i], callArgs[1][i]]
-                    result.append(self.callOperator(fct, temp))
+                    if type(temp[0]) == NumType:
+                        result.append(self.callOperator(fct, [temp[0].value, temp[1]]))
+                    elif type(temp[1]) == NumType:
+                        result.append(self.callOperator(fct, [temp[0], temp[1].value]))
+                    else:
+                        result.append(self.callOperator(fct, temp))
                 result2 = []
                 for i in range(len(result)):
                     result2.append(result[i].value)
+                
                 return result2
 
     def callOperator(self, fct, earg):
@@ -95,6 +107,9 @@ class Interpreter:
 
         elif node["type"] == "NULL":
             return BoolType (node["type"])
+        
+        elif node["type"] == "MAXIMUM":
+            return NumType (max(node["type"]))
 
 
         elif node["type"] == "AND":

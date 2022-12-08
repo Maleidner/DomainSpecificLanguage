@@ -1,7 +1,8 @@
-//write "Hello World";
+write "Hello World";
 // Grundrechenarten
-//write 1 + 2 - 5 * 7 / 9;
+write 1 + 2 - 5 * 7 / 9;
 // Jetzt mit Listen
 write [1,1,1] + 2 - [5,5,5] * 7 / 9;
 x := 345;
 write x;
+//write maximum [20,30,40,100,50];

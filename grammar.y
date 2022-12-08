@@ -127,6 +127,8 @@ int get_token_id (char *token) {
 	if (strcmp(token, "AND") == 0) return AND;
 	if (strcmp(token, "OR") == 0) return OR;
 	if (strcmp(token, "NOT") == 0) return NOT;
+	if (strcmp(token, "MAXIMUM") == 0) return MAXIMUM;
+	if (strcmp(token, "MINIMUM") == 0) return MINIMUM;
 	
 	printf ("{\"error\" : true, \"message\": \"UNKNOWN TOKEN TYPE %s\"}\n", token);
 	exit(0);
@@ -295,6 +297,12 @@ ex(r) ::= IDENTIFIER(a) .
 
 ex(r) ::= NOT ex(a) .                                
 {r = unary ("NOT", a); }
+
+ex(r) ::= MAXIMUM ex(a) .                                
+{r = unary ("MAXIMUM", a); }
+
+ex(r) ::= MINIMUM ex(a) .                                
+{r = unary ("MINIMUM", a); }
 
 ex(r) ::= ex(a) PLUS ex(b) .                                
 {r = binary ("PLUS", a, b); }
