@@ -121,6 +121,11 @@ int get_token_id (char *token) {
 	if (strcmp(token, "WRITE") == 0) return WRITE;
 	if (strcmp(token, "TIMES") == 0) return TIMES;
 	if (strcmp(token, "ASSIGN") == 0) return ASSIGN;
+	if (strcmp(token, "LT") == 0) return LT;
+	if (strcmp(token, "LTOE") == 0) return LTOE;
+	if (strcmp(token, "GT") == 0) return GT;
+	if (strcmp(token, "GTOE") == 0) return GTOE;
+	if (strcmp(token, "EQUAL") == 0) return EQUAL;
 	if (strcmp(token, "NULL") == 0) return NUL_;
 	if (strcmp(token, "TRUE") == 0) return TRUE;
 	if (strcmp(token, "FALSE") == 0) return FALSE;
@@ -129,6 +134,10 @@ int get_token_id (char *token) {
 	if (strcmp(token, "NOT") == 0) return NOT;
 	if (strcmp(token, "MAXIMUM") == 0) return MAXIMUM;
 	if (strcmp(token, "MINIMUM") == 0) return MINIMUM;
+	if (strcmp(token, "FIRST") == 0) return FIRST;
+	if (strcmp(token, "LAST") == 0) return LAST;
+	if (strcmp(token, "SUM") == 0) return SUM;
+	if (strcmp(token, "COUNT") == 0) return COUNT;
 	
 	printf ("{\"error\" : true, \"message\": \"UNKNOWN TOKEN TYPE %s\"}\n", token);
 	exit(0);
@@ -191,10 +200,12 @@ cJSON* ternary (char *fname, cJSON *a, cJSON *b, cJSON *c)
 ///////////////////////
 /////////////////////// 
 
-
+%left	   AMPERSAND .
+%left	   AND .
 %left 	   PLUS MINUS .
 %left 	   TIMES DIVIDE .
 %right     POWER .
+%left      SQRT .
 
 
 
@@ -304,6 +315,24 @@ ex(r) ::= MAXIMUM ex(a) .
 ex(r) ::= MINIMUM ex(a) .                                
 {r = unary ("MINIMUM", a); }
 
+ex(r) ::= FIRST ex(a) .                                
+{r = unary ("FIRST", a); }
+
+ex(r) ::= LAST ex(a) .                                
+{r = unary ("LAST", a); }
+
+ex(r) ::= SUM ex(a) .                                
+{r = unary ("SUM", a); }
+
+ex(r) ::= COUNT ex(a) .                                
+{r = unary ("COUNT", a); }
+
+ex(r) ::= ex(a) LT ex(b) .                                
+{r = binary ("LT", a, b); }
+
+ex(r) ::= ex(a) GT ex(b) .                                
+{r = binary ("GT", a, b); }
+
 ex(r) ::= ex(a) PLUS ex(b) .                                
 {r = binary ("PLUS", a, b); }
 
@@ -351,6 +380,41 @@ ex(r) ::= NUL_ .
 	cJSON_AddStringToObject(res, "value", "null");
 	r = res;
 }
+
+
+
+///////////////////////////
+// IF
+///////////////////////////
+
+statement(r) ::= IF if_then_else(a) .
+{r = a;}
+
+
+if_then_else(r) ::= ex(a) THEN statements(b) elseif(c) . 
+{
+    cJSON *res = cJSON_CreateObject();
+    cJSON_AddStringToObject(res, "typ", "IF");
+    cJSON_AddItemToObject(res, "condition", a);
+    cJSON_AddItemToObject(res, "thenbranch", (b));
+    cJSON_AddItemToObject(res, "elsebranch", (c));
+    r = res;
+}
+
+
+elseif(r) ::= ENDIF SEMICOLON .
+{
+    cJSON *res = cJSON_CreateObject();
+    cJSON_AddStringToObject(res, "typ", "NOOP");
+    r = res;
+}
+
+
+elseif(r) ::= ELSE statements(a) ENDIF SEMICOLON.
+{r = a;}
+
+elseif(r) ::= ELSEIF if_then_else(a) .
+{r = a;}
 
 
 ex(r) ::= jsonarray (a) .

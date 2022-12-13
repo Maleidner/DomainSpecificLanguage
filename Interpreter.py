@@ -6,8 +6,9 @@ symbol_table = {};
 class Interpreter:
     
 
-    def runOperator(self, fct, arg, handling):
+    def runOperator(self, fct, arg, handling, unary = False):
         evalArgs = [];
+        result2 = []
 
         if handling == "NO":
             for a in arg:
@@ -17,6 +18,18 @@ class Interpreter:
         elif handling == "DEF":
             argsAreLists = False
             listLengths = []
+
+
+            #TODO
+            if unary == True:
+                for a in arg:
+                    ea = self.ev(a)
+                    if isinstance(ea, ListType):
+                        return self.callOperator(fct, [ea])
+                    else:
+                        return self.callOperator(fct, [ea])
+
+
             for a in arg:
                 ea = self.ev(a)
                 if isinstance(ea, ListType):
@@ -57,6 +70,7 @@ class Interpreter:
                             tmp.append(e[i])
                         modifiedArgs.append(tmp)
 
+                
                 result = list()
 
                 for i in range(refLength):
@@ -70,7 +84,7 @@ class Interpreter:
                         result.append(self.callOperator(fct, [temp[0], temp[1].value]))
                     else:
                         result.append(self.callOperator(fct, temp))
-                result2 = []
+                
                 for i in range(len(result)):
                     result2.append(result[i].value)
                 
@@ -108,9 +122,7 @@ class Interpreter:
         elif node["type"] == "NULL":
             return BoolType (node["type"])
         
-        elif node["type"] == "MAXIMUM":
-            return NumType (max(node["type"]))
-
+       
 
         elif node["type"] == "AND":
             res = self.ev(node["arg"][0])
@@ -127,7 +139,7 @@ class Interpreter:
 
         elif node["type"] == "NOT":
             res = self.ev(node["arg"][0])
-            r = not res
+            r = not eval(res.value)
             return BoolType (r)
 
         #elif node["type"] == "LIST":
@@ -147,9 +159,25 @@ class Interpreter:
         elif node["type"] == "PLUS":
             return self.runOperator("_plus", node["arg"], "DEF")
           
+        elif node["type"] == "MAXIMUM":
+            return self.runOperator("_maximum", node["arg"], "DEF", True)
 
+        elif node["type"] == "MINIMUM":
+            return self.runOperator("_minimum", node["arg"], "DEF", True)
 
-        if node['type'] == 'TIMES':
+        elif node["type"] == "FIRST":
+            return self.runOperator("_first", node["arg"], "DEF", True)
+
+        elif node["type"] == "LAST":
+            return self.runOperator("_last", node["arg"], "DEF", True)
+        
+        elif node["type"] == "SUM":
+            return self.runOperator("_sum", node["arg"], "DEF", True)
+
+        elif node["type"] == "COUNT":
+            return self.runOperator("_count", node["arg"], "DEF", True)
+
+        elif node['type'] == 'TIMES':
             return self.runOperator("_times", node["arg"], "DEF")
 
 
@@ -166,3 +194,6 @@ class Interpreter:
 
         elif node["type"] == "VARIABLE":
             return symbol_table.get(node.get("name"), NullType)
+
+        elif node["type"] == "LT":
+            return self.runOperator("_lessthan", node["arg"], "DEF")
