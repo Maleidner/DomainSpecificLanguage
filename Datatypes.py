@@ -49,3 +49,10 @@ class BoolType:
     def __str__(self):
         return str(self.value) 
     
+
+class TimeType:
+    def __init__(self, value, timestamp=None):
+        self.value = value
+        self.timestamp = timestamp
+    def __str__(self):
+        return str(self.value) 

@@ -73,3 +73,11 @@ def _count(arg1):
         result = 1
     return NumType(result)
 
+def _timeof(arg1):
+    return arg1.timestamp 
+
+def _iswithin(arg1, arg2, arg3):
+    if arg1 > arg2 and arg1 < arg3:
+        return BoolType(True)
+    else:
+        return BoolType(False)

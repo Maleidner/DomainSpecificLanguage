@@ -5,6 +5,8 @@ symbol_table = {};
 
 class Interpreter:
     
+    def __init__(self):
+        self.now = TimeType(value = datetime.now())
 
     def runOperator(self, fct, arg, handling, unary = False):
         evalArgs = [];
@@ -30,6 +32,26 @@ class Interpreter:
                         return self.callOperator(fct, [ea])
 
 
+            if fct == "_iswithin":
+                i = 1
+                for a in arg:
+                    ea = self.ev(a)
+                    if i == 2 and isinstance(ea, ListType):
+                        if ea.value[0].value < ea.value[1].value:
+                            evalArgs.append(ea.value[0].value)
+                        else:
+                            evalArgs.append(ea.value[1].value)
+                    elif i == 3 and isinstance(ea, ListType):
+                        if ea.value[0].value < ea.value[1].value:
+                            evalArgs.append(ea.value[1].value)
+                        else:
+                            evalArgs.append(ea.value[0].value)
+                    else:
+                        evalArgs.append(ea.value)
+                    i = i+1
+                
+                return self.callOperator(fct, evalArgs)
+                
             for a in arg:
                 ea = self.ev(a)
                 if isinstance(ea, ListType):
@@ -108,19 +130,19 @@ class Interpreter:
             print (self.ev(node["arg"])) 
  
         elif node["type"] == "STRTOKEN":
-            return StrType (node["value"])
+            return StrType (node["value"], timestamp = datetime.now())
 
         elif node["type"] == "NUMBER":
-            return NumType (node["value"])
+            return NumType (node["value"], timestamp = datetime.now())
 
         elif node["type"] == "TRUE":
-            return BoolType (node["value"])
+            return BoolType (node["value"], timestamp = datetime.now())
 
         elif node["type"] == "FALSE":
-            return BoolType (node["value"])
+            return BoolType (node["value"], timestamp = datetime.now())
 
         elif node["type"] == "NULL":
-            return BoolType (node["type"])
+            return BoolType (node["type"], timestamp = datetime.now())
         
        
 
@@ -152,6 +174,10 @@ class Interpreter:
             return list_
 
 
+        elif node["type"] == "NOW":
+            return self.now
+
+
         elif node["type"] == "POWER":
             return self.runOperator("_power", node["arg"], "DEF")
  
@@ -177,6 +203,22 @@ class Interpreter:
         elif node["type"] == "COUNT":
             return self.runOperator("_count", node["arg"], "DEF", True)
 
+        elif node["type"] == "TIMEOF":
+            val = self.ev(node["arg"])
+            if type(val) == ListType:
+                timestamp_list = ListType()
+                for i in val.value:
+                    timestamp_list.value += [TimeType(i.timestamp)]
+                return timestamp_list
+            else:
+                return TimeType(value=val.timestamp)
+
+        elif node["type"] == "TIMEASSIGNMENT":
+            ts = self.ev(node["arg"])
+          #  if (not isinstance(ts, TimeType)):
+           #     raise "TIMEASSIGNMENT"
+            symbol_table[node.get("varname")].timestamp = ts.value
+
         elif node['type'] == 'TIMES':
             return self.runOperator("_times", node["arg"], "DEF")
 
@@ -197,3 +239,6 @@ class Interpreter:
 
         elif node["type"] == "LT":
             return self.runOperator("_lessthan", node["arg"], "DEF")
+
+        elif node["type"] == "ISWITHIN":
+            return self.runOperator("_iswithin", node["arg"], "DEF")

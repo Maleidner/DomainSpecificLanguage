@@ -1,16 +1,4 @@
-write "Hello World";
-// Grundrechenarten
-//write 1 + 2 - 5 * 7 / 9;
-// Jetzt mit Listen
-//write [1,1,1] + 2 - [5,5,5] * 7 / 9;
-x := 345;
-write x;
-write maximum [20,30,40,100,50];
-write minimum [20,30,40,100,50];
-write first [20,30,40,100,50];
-write last [20,30,40,100,50];
-write last 4711;
-write sum [20,30,40,100,50];
-write count [20,30,40,100,50];
-write true and not false;
-write 1 > 2;
+// minus? write 2022-12-06T12:00:00;
+
+write 5 is within 3 to 8;
+write 5 is within 3 to [8,9];
