@@ -1,4 +1,28 @@
 // minus? write 2022-12-06T12:00:00;
-
-write 5 is within 3 to 8;
-write 5 is within 3 to [8,9];
+// Das sollte überall funzen
+write "Hello World";
+// Grundrechenarten
+write 1 + 2 - 5 * 7 / 9;
+// Jetzt mit Listen
+write [1,1,1] + 2 - [5,5,5] * 7 / 9;
+// Ein paar Aggregationsoperatoren
+write maximum [20,30,40,100,50];
+write minimum [20,30,40,100,50];
+write first [20,30,40,100,50];
+write last [20,30,40,100,50];
+write sum [20,30,40,100,50];
+write last 4711;
+write count [20,30,40,100,50];
+// Boolesche Operatoren
+write true and not false;
+// Vergleichsoperatoren
+write 1 < 2;
+write 2 <= 2;
+write 2 = 2;
+write 5 > 0;
+write 5 >= 0;
+for i in [1,2,3] do 
+    write i**3;
+enddo;
+write [1,2,null,"Hallo", now] is number;
+write [1,2,"Hallo", now] is list;

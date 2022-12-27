@@ -1,6 +1,8 @@
 import sys
 from Datatypes import *
 import operators
+import numpy as np
+
 symbol_table = {};
 
 class Interpreter:
@@ -54,7 +56,25 @@ class Interpreter:
                 
             for a in arg:
                 ea = self.ev(a)
-                if isinstance(ea, ListType):
+                if(a["type"] == "VARIABLE"):
+                    
+                    if(isinstance(a[1], ListType)):
+                        argsAreLists = True
+                        li = []
+                        length = len(a[1].value)
+                        listLengths.append(length)
+                        for i in range(length):
+                            li.append(a[1].value[i].value)
+                        evalArgs.append(li)
+                        
+              #  elif(a["type"] == "NUMBER"):
+                #    li = []
+                 #   for i in range(length):
+                  #      li.append(NumType(a["value"]).value)
+                   # evalArgs.append(li)
+                   # evalArgs.append([li])
+
+                elif isinstance(ea, ListType):
                     argsAreLists = True
                     listLengths.append(len(ea.value))
                     evalArgs.append(ea.value)
@@ -239,6 +259,41 @@ class Interpreter:
 
         elif node["type"] == "LT":
             return self.runOperator("_lessthan", node["arg"], "DEF")
+        
+        elif node["type"] == "GT":
+            return self.runOperator("_greaterthan", node["arg"], "DEF")
+        
+        elif node["type"] == "LTOE":
+            return self.runOperator("_lessthanorequal", node["arg"], "DEF")
+
+        elif node["type"] == "GTOE":
+            return self.runOperator("_greaterthanorequal", node["arg"], "DEF")
+
+        elif node["type"] == "EQUAL":
+            return self.runOperator("_equal", node["arg"], "DEF")
 
         elif node["type"] == "ISWITHIN":
             return self.runOperator("_iswithin", node["arg"], "DEF")
+
+        elif node["type"] == "FOR":
+            indices = ListType()
+            val = self.ev(node["expression"])
+            for i in val.value:
+                indices.value += [i]
+            node["statements"]["statements"][0]["arg"]["arg"][0][1] = indices
+            node["statements"]["statements"][0]["for"] = True
+            self.ev(node["statements"]["statements"][0])
+       # elif node["type"] == "SEQTO":
+        #    return self.runOperator("_seqto", node["arg"], "DEF")
+            
+        elif node["type"] == "ISNUMBER":
+            res = self.ev(node["arg"][0])
+            length = len(res.value)
+            bools = []
+            for i in range(length):
+                bools.append(isinstance(res.value[i], NumType))
+            return BoolType (bools)
+
+        elif node["type"] == "ISLIST":
+            res = self.ev(node["arg"][0])
+            return BoolType (isinstance(res, ListType))

@@ -51,8 +51,8 @@ class Tokenizer:
             }
     
     
-    reserved = ["NULL", "IF", "THEN", "ELSE", "TRUE", "FALSE", "SQRT", "DO", "ENDDO", "WRITE", "ELSEIF", "ENDIF", "FOR", "IN", "AND", "OR", "NOT", "MAXIMUM", "MINIMUM", "FIRST",
-    "LAST", "SUM", "COUNT", "IS", "WITHIN", "TO", "NOW", "TIME", "OF"]
+    reserved = ["NULL", "IF", "THEN", "ELSE", "TRUE", "FALSE", "SQRT", "WRITE", "ELSEIF", "ENDIF", "FOR", "IN", "DO", "ENDDO", "AND", "OR", "NOT", "MAXIMUM", "MINIMUM", "FIRST",
+    "LAST", "SUM", "COUNT", "IS", "WITHIN", "TO", "NOW", "TIME", "OF", "...", "IS", "NUMBER", "LIST"]
     
     def __init__(self, name):
         with open(os.path.join(os.getcwd(), name), "r") as f:

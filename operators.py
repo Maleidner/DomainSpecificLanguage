@@ -21,6 +21,33 @@ def _lessthan(arg1, arg2):
         correct = True
     return BoolType(correct)
 
+def _greaterthan(arg1, arg2):
+    correct = False
+    if arg1 > arg2:
+        correct = True
+    return BoolType(correct)
+
+def _lessthanorequal(arg1, arg2):
+    correct = False
+    if arg1 <= arg2:
+        correct = True
+    return BoolType(correct)
+
+def _greaterthan(arg1, arg2):
+    correct = False
+    if arg1 >= arg2:
+        correct = True
+    return BoolType(correct)
+
+def _equal(arg1, arg2):
+    correct = False
+    if arg1 == arg2:
+        correct = True
+    return BoolType(correct)
+
+def _seqto(arg1, arg2):
+    print("hallo")
+
 def _maximum(arg1):
     if isinstance(arg1, ListType):
         tmp = []
