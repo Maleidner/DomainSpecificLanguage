@@ -137,12 +137,13 @@ int get_token_id (char *token) {
 	if (strcmp(token, "LAST") == 0) return LAST;
 	if (strcmp(token, "SUM") == 0) return SUM;
 	if (strcmp(token, "COUNT") == 0) return COUNT;
+	if (strcmp(token, "EQUAL") == 0) return EQUAL;
 	if (strcmp(token, "LT") == 0) return LT;
 	if (strcmp(token, "LTOE") == 0) return LTOE;
 	if (strcmp(token, "GT") == 0) return GT;
 	if (strcmp(token, "GTOE") == 0) return GTOE;
-	if (strcmp(token, "EQUAL") == 0) return EQUAL;
 	if (strcmp(token, "NOW") == 0) return NOW;
+	if (strcmp(token, "CURRENTTIME") == 0) return CURRENTTIME;
 	if (strcmp(token, "TO") == 0) return TO;
 	if (strcmp(token, "FOR") == 0) return FOR;
 	if (strcmp(token, "IN") == 0) return IN;
@@ -151,6 +152,13 @@ int get_token_id (char *token) {
 	if (strcmp(token, "IS") == 0) return IS;
 	if (strcmp(token, "NUMBER") == 0) return NUMBER;
 	if (strcmp(token, "LIST") == 0) return LIST;
+	if (strcmp(token, "IF") == 0) return IF;
+	if (strcmp(token, "THEN") == 0) return THEN;
+	if (strcmp(token, "ELSE") == 0) return ELSE;
+	if (strcmp(token, "ELSEIF") == 0) return ELSEIF;
+	if (strcmp(token, "ENDIF") == 0) return ENDIF;
+	if (strcmp(token, "SEQTO") == 0) return SEQTO;
+	if (strcmp(token, "TIMESTAMP") == 0) return TIMESTAMP;
 	
 
 	printf ("{\"error\" : true, \"message\": \"UNKNOWN TOKEN TYPE %s\"}\n", token);
@@ -311,7 +319,41 @@ cJSON_AddItemToObject(res, "statements", sb);
 r = res;
 }
 
+///////////////////////////
+// IF
+///////////////////////////
 
+statement(r) ::= IF if_then_else(a) .
+{r = a;}
+
+if_then_else(r) ::= ex(a) THEN statement(b) elseif(c) .
+{
+cJSON *res = cJSON_CreateObject();
+cJSON_AddStringToObject(res, "type", "IF");
+cJSON_AddItemToObject(res, "condition", a);
+cJSON_AddItemToObject(res, "thenbranch", (b));
+cJSON_AddItemToObject(res, "elsebranch", (c));
+r = res;
+}
+
+elseif(r) ::= ENDIF SEMICOLON .
+{
+cJSON *res = cJSON_CreateObject();
+cJSON_AddStringToObject(res, "type", "STATEMENTBLOCK");
+cJSON *arg = cJSON_CreateArray();
+cJSON_AddItemToObject(res, "statements", arg);
+r = res;
+}
+
+elseif(r) ::= ELSE statement(a) ENDIF SEMICOLON .
+{r = a;}
+elseif(r) ::= ELSEIF if_then_else(a) .
+{r = a;}
+
+
+///////////////////////////
+// BINARIES
+///////////////////////////
 
 ex(r) ::= LPAR ex(a) RPAR .    
 { 
@@ -383,6 +425,9 @@ ex(r) ::= TIME of ex(e).
     r = res;
 }
 
+ex(r) ::= ex(a) EQUAL ex(b) .                                
+{r = binary ("EQUAL", a, b); }
+
 ex(r) ::= ex(a) LT ex(b) .                                
 {r = binary ("LT", a, b); }
 
@@ -394,9 +439,6 @@ ex(r) ::= ex(a) GT ex(b) .
 
 ex(r) ::= ex(a) GTOE ex(b) .                                
 {r = binary ("GTOE", a, b); }
-
-ex(r) ::= ex(a) EQUAL ex(b) .                                
-{r = binary ("EQUAL", a, b); }
 
 ex(r) ::= ex(a) PLUS ex(b) .                                
 {r = binary ("PLUS", a, b); }
@@ -419,6 +461,8 @@ ex(r) ::= ex(a) AND ex(b) .
 ex(r) ::= ex(a) OR ex(b) .                               
 {r = binary ("OR", a, b); }
 
+ex(r) ::= ex(a) SEQTO ex(b) .                               
+{r = binary ("SEQTO", a, b); }
 
 
 ex(r) ::= ex(a) IS WITHIN ex(b) TO ex(c) .
@@ -463,7 +507,12 @@ ex(r) ::= NOW .
 	r = res;
 }
 
-
+ex(r) ::= CURRENTTIME .                               
+{
+	cJSON *res = cJSON_CreateObject();
+	cJSON_AddStringToObject(res, "type", "CURRENTTIME");
+	r = res;
+}
 
 ex(r) ::= jsonarray (a) .
 {r = a;}

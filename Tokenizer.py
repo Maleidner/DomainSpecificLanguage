@@ -25,12 +25,12 @@ class Tokenizer:
             "POWER": "**",
             "TIMES": "*",
             "DIVIDE": "/",
-            "EQUAL": "=",
             "UNEQUAL": "!=",
-            "LT": "<",
+            "EQUAL": "=",
             "LTOE": "<=",
-            "GT": ">",
             "GTOE": ">=",
+            "LT": "<",
+            "GT": ">",
             "LPAR": "(",
             "RPAR": ")",
             "LSPAR": "[",
@@ -38,21 +38,22 @@ class Tokenizer:
             "LCPAR": "{",
             "RCPAR": "}",
             "AMPERSAND": "&",
-            "COMMA": ","
+            "COMMA": ",",
+            "SEQTO": "..."
             }
             
             
     regexes = {
             "IDENTIFIER": r'[a-z]+',
-            "TIMESTAMP": r'^\d{4}-\d{2}-\d{2}T',
+            "TIMESTAMP": r'^\d{4}-\d{2}-\d{2}T(\d{2}:\d{2}:\d{2})?',
             "STRTOKEN": r'"(.*?)"',
             "NUMTOKEN": r'\d+(\.\d+)?',
             "COMMENT": r'^/{2}.*'
             }
     
     
-    reserved = ["NULL", "IF", "THEN", "ELSE", "TRUE", "FALSE", "SQRT", "WRITE", "ELSEIF", "ENDIF", "FOR", "IN", "DO", "ENDDO", "AND", "OR", "NOT", "MAXIMUM", "MINIMUM", "FIRST",
-    "LAST", "SUM", "COUNT", "IS", "WITHIN", "TO", "NOW", "TIME", "OF", "...", "IS", "NUMBER", "LIST"]
+    reserved = ["NULL", "IF", "THEN",  "ELSE", "TRUE", "FALSE", "SQRT", "WRITE", "ELSEIF", "ENDIF", "FOR", "IN", "DO", "ENDDO", "AND", "OR", "NOT", "MAXIMUM", "MINIMUM", "FIRST",
+    "LAST", "SUM", "COUNT", "IS", "WITHIN", "TO", "NOW", "TIME", "OF", "IS", "NUMBER", "LIST", "CURRENTTIME"]
     
     def __init__(self, name):
         with open(os.path.join(os.getcwd(), name), "r") as f:

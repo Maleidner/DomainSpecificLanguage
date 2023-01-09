@@ -12,7 +12,6 @@ class Interpreter:
 
     def runOperator(self, fct, arg, handling, unary = False):
         evalArgs = [];
-        result2 = []
 
         if handling == "NO":
             for a in arg:
@@ -24,7 +23,6 @@ class Interpreter:
             listLengths = []
 
 
-            #TODO
             if unary == True:
                 for a in arg:
                     ea = self.ev(a)
@@ -56,8 +54,10 @@ class Interpreter:
                 
             for a in arg:
                 ea = self.ev(a)
-                if(a["type"] == "VARIABLE"):
-                    
+                if(a["type"] == "VARIABLE" and isinstance(ea, NumType)):
+                        evalArgs.append(symbol_table[a.get("name")])
+
+                elif(a["type"] == "VARIABLE"):
                     if(isinstance(a[1], ListType)):
                         argsAreLists = True
                         li = []
@@ -66,7 +66,7 @@ class Interpreter:
                         for i in range(length):
                             li.append(a[1].value[i].value)
                         evalArgs.append(li)
-                        
+
               #  elif(a["type"] == "NUMBER"):
                 #    li = []
                  #   for i in range(length):
@@ -77,13 +77,13 @@ class Interpreter:
                 elif isinstance(ea, ListType):
                     argsAreLists = True
                     listLengths.append(len(ea.value))
-                    evalArgs.append(ea.value)
+                    evalArgs.append(ea)
                 elif(type(ea) == list):
                     argsAreLists = True
                     listLengths.append(len(ea))
                     evalArgs.append(ea)
                 else:
-                    evalArgs.append(ea.value)
+                    evalArgs.append(ea)
 
             if not argsAreLists:
                 return self.callOperator(fct, evalArgs)
@@ -103,7 +103,7 @@ class Interpreter:
                 for e in evalArgs:
                     #if type(e) == float or type(e) == int:
                    #     modifiedArgs.append([e] * refLength)
-                    if type(e) == float or type(e) == int:
+                    if type(e) == float or type(e) == int or type(e) == NumType:
                         modifiedArgs.append([e] * refLength)
                     elif type(e) == list:
                         e = list(e)
@@ -111,9 +111,14 @@ class Interpreter:
                         for i in range(len(e)): 
                             tmp.append(e[i])
                         modifiedArgs.append(tmp)
+                    elif type(e) == ListType:
+                        tmp = []
+                        for i in range(len(e.value)): 
+                            tmp.append(e.value[i])
+                        modifiedArgs.append(tmp)
 
                 
-                result = list()
+                result = ListType()
 
                 for i in range(refLength):
                     callArgs = []
@@ -121,16 +126,13 @@ class Interpreter:
                         callArgs.append(m)
                     temp = [callArgs[0][i], callArgs[1][i]]
                     if type(temp[0]) == NumType:
-                        result.append(self.callOperator(fct, [temp[0].value, temp[1]]))
+                        result.value.append(self.callOperator(fct, [temp[0], temp[1]]))
                     elif type(temp[1]) == NumType:
-                        result.append(self.callOperator(fct, [temp[0], temp[1].value]))
+                        result.value.append(self.callOperator(fct, [temp[0], temp[1]]))
                     else:
-                        result.append(self.callOperator(fct, temp))
-                
-                for i in range(len(result)):
-                    result2.append(result[i].value)
-                
-                return result2
+                        result.value.append(self.callOperator(fct, temp))
+
+                return result
 
     def callOperator(self, fct, earg):
         if len(earg) == 1:
@@ -197,6 +199,11 @@ class Interpreter:
         elif node["type"] == "NOW":
             return self.now
 
+        elif node["type"] == "TIMESTAMP":
+            return TimeType(value = self.now)
+
+        elif node["type"] == "CURRENTTIME":
+            return TimeType(value=datetime.now())
 
         elif node["type"] == "POWER":
             return self.runOperator("_power", node["arg"], "DEF")
@@ -283,8 +290,8 @@ class Interpreter:
             node["statements"]["statements"][0]["arg"]["arg"][0][1] = indices
             node["statements"]["statements"][0]["for"] = True
             self.ev(node["statements"]["statements"][0])
-       # elif node["type"] == "SEQTO":
-        #    return self.runOperator("_seqto", node["arg"], "DEF")
+        elif node["type"] == "SEQTO":
+            return self.runOperator("_seqto", node["arg"], "DEF")
             
         elif node["type"] == "ISNUMBER":
             res = self.ev(node["arg"][0])
@@ -297,3 +304,9 @@ class Interpreter:
         elif node["type"] == "ISLIST":
             res = self.ev(node["arg"][0])
             return BoolType (isinstance(res, ListType))
+
+        elif node["type"] == "IF":
+            if self.ev(node["condition"]).value:
+                return self.ev(node["thenbranch"])
+            else:
+                return self.ev(node["elsebranch"])

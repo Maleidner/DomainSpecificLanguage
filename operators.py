@@ -1,52 +1,70 @@
 from Datatypes import *
 
 def _plus(arg1, arg2):
-    return NumType(arg1 + arg2)
+    var = arg1.value + arg2.value
+    if arg1.timestamp == arg2.timestamp:
+       return NumType(var, timestamp = arg1.timestamp)
+    return NumType(var)
 
 def _minus(arg1, arg2):
-    return NumType(arg1 - arg2)
+    var = arg1.value - arg2.value
+    if arg1.timestamp == arg2.timestamp:
+        return NumType(var, timestamp = arg1.timestamp)
+    return NumType(var)
 
 def _divide(arg1, arg2):
-    return NumType(arg1 / arg2)
+    var = arg1.value / arg2.value
+    if arg1.timestamp == arg2.timestamp:
+         return NumType(var, timestamp = arg1.timestamp)
+    return NumType(var)
 
 def _times(arg1, arg2):
-    return NumType(arg1 * arg2)
+    var = arg1.value * arg2.value
+    if arg1.timestamp == arg2.timestamp:
+         return NumType(var, timestamp = arg1.timestamp)
+    return NumType(var)
 
 def _power(arg1, arg2):
-    return NumType(arg1 ** arg2)
+    var = arg1.value ** arg2.value
+    if arg1.timestamp == arg2.timestamp:
+         return NumType(var, timestamp = arg1.timestamp)
+    return NumType(var)
 
 def _lessthan(arg1, arg2):
     correct = False
-    if arg1 < arg2:
+    if arg1.value < arg2.value:
         correct = True
     return BoolType(correct)
 
 def _greaterthan(arg1, arg2):
     correct = False
-    if arg1 > arg2:
+    if arg1.value > arg2.value:
         correct = True
     return BoolType(correct)
 
 def _lessthanorequal(arg1, arg2):
     correct = False
-    if arg1 <= arg2:
+    if arg1.value <= arg2.value:
         correct = True
     return BoolType(correct)
 
 def _greaterthan(arg1, arg2):
     correct = False
-    if arg1 >= arg2:
+    if arg1.value >= arg2.value:
         correct = True
     return BoolType(correct)
 
 def _equal(arg1, arg2):
     correct = False
-    if arg1 == arg2:
+    if arg1.value == arg2.value:
         correct = True
     return BoolType(correct)
 
 def _seqto(arg1, arg2):
-    print("hallo")
+    l = []
+    for i in range(int(arg1.value), int(arg2.value)+1):
+        l.append(i)
+    return l
 
 def _maximum(arg1):
     if isinstance(arg1, ListType):
