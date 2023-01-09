@@ -1,7 +1,10 @@
-// minus? write 2022-12-06T12:00:00;
-// equal?
+for i in [1,2,3] do 
+    write i**3;
+enddo;
+
+write "Hello World";
+// Grundrechenarten
 write 1 + 2 - 5 * 7 / 9;
-write [1,1,1] + 2 - [5,5,5] * 7 / 9;
 // Jetzt mit Listen
 write [1,1,1] + 2 - [5,5,5] * 7 / 9;
 // Entspricht SEQTO in Arden
@@ -27,6 +30,7 @@ write [1,2,null,"Hallo", now] is number;
 write [1,2,"Hallo", now] is list;
 x := 1;
 write x;
+write 2022-12-06T12:00:00;
 write now;
 write currenttime;
 x := 4711;
@@ -38,4 +42,14 @@ time of y := now;
 z := x + y;
 write z;
 write time of z;
-write 2022-12-06T12:00:00;
+//IF
+bmi := 38;
+if bmi < 30 then
+    write "Normalgewicht";
+elseif bmi < 35 then
+    write "Adipositas 1";
+elseif bmi < 40 then
+    write "Adipositas 2";
+else 
+    write "Adipositas 3";
+endif;

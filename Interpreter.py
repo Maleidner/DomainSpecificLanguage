@@ -60,11 +60,11 @@ class Interpreter:
                 elif(a["type"] == "VARIABLE"):
                     if(isinstance(a[1], ListType)):
                         argsAreLists = True
-                        li = []
+                        li = ListType()
                         length = len(a[1].value)
                         listLengths.append(length)
                         for i in range(length):
-                            li.append(a[1].value[i].value)
+                            li.value.append(a[1].value[i])
                         evalArgs.append(li)
 
               #  elif(a["type"] == "NUMBER"):
