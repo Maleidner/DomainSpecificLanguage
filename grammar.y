@@ -117,6 +117,7 @@ int get_token_id (char *token) {
 	if (strcmp(token, "LSPAR") == 0) return LSPAR;
 	if (strcmp(token, "RSPAR") == 0) return RSPAR;
 	if (strcmp(token, "MINUS") == 0) return MINUS;
+	if (strcmp(token, "UMINUS") == 0) return UMINUS;
 	if (strcmp(token, "NUMTOKEN") == 0) return NUMTOKEN;
 	if (strcmp(token, "PLUS") == 0) return PLUS;
 	if (strcmp(token, "POWER") == 0) return POWER;
@@ -222,13 +223,15 @@ cJSON* ternary (char *fname, cJSON *a, cJSON *b, cJSON *c)
 ///////////////////////
 /////////////////////// 
 
-%left	   AMPERSAND .
-%left	   AND .
+%left		AMPERSAND .
+%left		OR . 
+%left 		AND . 
+%right 		NOT .
 %left 	   PLUS MINUS .
 %left 	   TIMES DIVIDE .
 %right     POWER .
 %left      SQRT .
-
+%right		UMINUS .
 
 
 
@@ -352,7 +355,7 @@ elseif(r) ::= ELSEIF if_then_else(a) .
 
 
 ///////////////////////////
-// BINARIES
+// UNARIES
 ///////////////////////////
 
 ex(r) ::= LPAR ex(a) RPAR .    
@@ -389,6 +392,8 @@ ex(r) ::= IDENTIFIER(a) .
 }
 
 
+ex(r) ::= MINUS ex(a) . [UMINUS]
+{r = unary ("UMINUS", a); }
 
 ex(r) ::= NOT ex(a) .                                
 {r = unary ("NOT", a); }
@@ -417,6 +422,8 @@ ex(r) ::= ex(a) IS NUMBER .
 ex(r) ::= ex(a) IS LIST .                                
 {r = unary ("ISLIST", a); }
 
+
+
 ex(r) ::= TIME of ex(e).
 { 
     cJSON *res = cJSON_CreateObject(); 
@@ -424,6 +431,11 @@ ex(r) ::= TIME of ex(e).
     cJSON_AddItemToObject(res, "arg", e);
     r = res;
 }
+
+
+///////////////////////////
+// BINARIES
+///////////////////////////
 
 ex(r) ::= ex(a) EQUAL ex(b) .                                
 {r = binary ("EQUAL", a, b); }
@@ -496,7 +508,7 @@ ex(r) ::= TIMESTAMP (a).
 {
 	cJSON *res = cJSON_CreateObject();
 	cJSON_AddStringToObject(res, "type", "TIMESTAMP");
-	cJSON_AddStringToObject(res, "value", "getValue(a)");
+	cJSON_AddStringToObject(res, "value", getValue(a));
 	r = res;
 }
 

@@ -22,6 +22,7 @@ class Tokenizer:
             "SEMICOLON": ";",
             "PLUS": "+",
             "MINUS": "-",
+            "UMINUS": "-",
             "POWER": "**",
             "TIMES": "*",
             "DIVIDE": "/",
@@ -45,7 +46,7 @@ class Tokenizer:
             
     regexes = {
             "IDENTIFIER": r'[a-z]+',
-            "TIMESTAMP": r'^\d{4}-\d{2}-\d{2}T(\d{2}:\d{2}:\d{2})?',
+            "TIMESTAMP": r'^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})?',
             "STRTOKEN": r'"(.*?)"',
             "NUMTOKEN": r'\d+(\.\d+)?',
             "COMMENT": r'^/{2}.*'

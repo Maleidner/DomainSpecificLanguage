@@ -53,3 +53,14 @@ elseif bmi < 40 then
 else 
     write "Adipositas 3";
 endif;
+
+
+write -2**2;
+// Zeitstempel müssen verschieden sein:
+x := 2;
+time of x := 2020-12-06T12:00:00;
+// Kopie von x
+y := x;
+time of y := 2022-12-06T12:00:00;
+write time of x;
+write time of y;

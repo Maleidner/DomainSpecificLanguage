@@ -1,6 +1,7 @@
 import sys
 from Datatypes import *
 import operators
+import copy
 import numpy as np
 
 symbol_table = {};
@@ -152,19 +153,19 @@ class Interpreter:
             print (self.ev(node["arg"])) 
  
         elif node["type"] == "STRTOKEN":
-            return StrType (node["value"], timestamp = datetime.now())
+            return StrType (node["value"])
 
         elif node["type"] == "NUMBER":
-            return NumType (node["value"], timestamp = datetime.now())
+            return NumType (node["value"])
 
         elif node["type"] == "TRUE":
-            return BoolType (node["value"], timestamp = datetime.now())
+            return BoolType (node["value"])
 
         elif node["type"] == "FALSE":
-            return BoolType (node["value"], timestamp = datetime.now())
+            return BoolType (node["value"])
 
         elif node["type"] == "NULL":
-            return BoolType (node["type"], timestamp = datetime.now())
+            return BoolType (node["type"])
         
        
 
@@ -200,10 +201,10 @@ class Interpreter:
             return self.now
 
         elif node["type"] == "TIMESTAMP":
-            return TimeType(value = self.now)
+            return TimeType(datetime.strptime(node.get("value"),"%Y-%m-%dT%H:%M:%S"))
 
         elif node["type"] == "CURRENTTIME":
-            return TimeType(value=datetime.now())
+            return TimeType(value = datetime.now())
 
         elif node["type"] == "POWER":
             return self.runOperator("_power", node["arg"], "DEF")
@@ -246,6 +247,7 @@ class Interpreter:
            #     raise "TIMEASSIGNMENT"
             symbol_table[node.get("varname")].timestamp = ts.value
 
+
         elif node['type'] == 'TIMES':
             return self.runOperator("_times", node["arg"], "DEF")
 
@@ -253,13 +255,16 @@ class Interpreter:
         elif node["type"] == "MINUS":
             return self.runOperator("_minus", node["arg"], "DEF")
 
+        elif node["type"] == "UMINUS":
+            return self.runOperator("_uminus", node["arg"], "DEF")
+
 
         elif node["type"] == "DIVIDE":
             return self.runOperator("_divide", node["arg"], "DEF")
 
 
         elif node["type"] == "ASSIGN":
-            symbol_table[node.get("varname")] = self.ev(node.get("arg"))
+            symbol_table[node.get("varname")] = copy.deepcopy(self.ev(node.get("arg")))
 
         elif node["type"] == "VARIABLE":
             return symbol_table.get(node.get("name"), NullType)

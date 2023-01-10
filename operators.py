@@ -12,6 +12,10 @@ def _minus(arg1, arg2):
         return NumType(var, timestamp = arg1.timestamp)
     return NumType(var)
 
+def _uminus(arg1):
+    return NumType(-arg1.value)
+
+
 def _divide(arg1, arg2):
     var = arg1.value / arg2.value
     if arg1.timestamp == arg2.timestamp:
